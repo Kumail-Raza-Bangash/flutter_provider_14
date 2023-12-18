@@ -10,11 +10,10 @@ class ExampleOneScreen extends StatefulWidget {
 }
 
 class _ExampleOneScreenState extends State<ExampleOneScreen> {
-  double value = 1.0;
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<ExampleOneProvider>(context);
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text('Provider 14'),
@@ -23,25 +22,25 @@ class _ExampleOneScreenState extends State<ExampleOneScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Slider(
+          Consumer<ExampleOneProvider>(builder: (context, value, child){
+            return Slider(
             min: 0,
             max: 1,
             
-            value: value, onChanged: (val){
-            value = val;
-            setState(() {
-              
-            });
+            value: value.value, onChanged: (val){
+            value.setValue(val);
 
+          });
           }),
-
-          Row(
+          
+          Consumer<ExampleOneProvider>(builder: (context, value, child){
+            return Row(
             children: [
               Expanded(
                 child: Container(
                   height: 100,
                   decoration: BoxDecoration(
-                    color: Colors.green.withOpacity(value),
+                    color: Colors.green.withOpacity(value.value),
                   ),
                   child: Center(
                     child: Text('Container 1'),
@@ -53,7 +52,7 @@ class _ExampleOneScreenState extends State<ExampleOneScreen> {
                 child: Container(
                   height: 100,
                   decoration: BoxDecoration(
-                    color: Colors.red.withOpacity(value),
+                    color: Colors.red.withOpacity(value.value),
                   ),
                   child: Center(
                     child: Text('Container 2'),
@@ -61,8 +60,11 @@ class _ExampleOneScreenState extends State<ExampleOneScreen> {
                 ),
                 ),
             ],
-          ),
+          );
+          }),
+          
 
+          
         ],
       ),
     );
